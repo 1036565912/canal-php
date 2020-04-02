@@ -1,0 +1,25 @@
+{
+    "name": "chenlin/canal-php",
+    "description": "This is a sample way to deal subscribe of canal!",
+    "type": "library",
+    "require": {
+        "xingwenge/canal_php": "^1.0",
+        "php": ">=7.0"
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Chen Lin",
+            "email": "1036565912@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-4": {
+            "Chenlin\\CanalPhp\\": "src/"
+        }
+    },
+    "suggest": {
+        "ext-redis": "suggest install redis if you want to use redis"
+    }
+}
