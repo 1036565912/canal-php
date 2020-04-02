@@ -19,7 +19,7 @@ class DemoAction extends BaseAction
     public function async(DealInterface $deal)
     {
         /** @var Entry $entry */
-        foreach ($this->entry_list as $entry) {
+        foreach ($this->entrys as $entry) {
             if (in_array($entry->getEntryType(), [EntryType::TRANSACTIONBEGIN,EntryType::TRANSACTIONEND])) {
                 //如果是事务 则跳过
                 continue;

@@ -10,7 +10,7 @@ abstract class BaseAction
 {
 
     /** @var array $entrys [包含的都是Entry] */
-    private  $entrys = [];
+    protected  $entrys = [];
 
     /**
      * 构造函数
