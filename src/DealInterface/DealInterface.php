@@ -1,6 +1,6 @@
 <?php
 
-namespace DealInterface;
+namespace Chenlin\CanalPhp\DealInterface;
 
 interface DealInterface
 {

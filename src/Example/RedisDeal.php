@@ -1,6 +1,6 @@
 <?php
 
-namespace Example;
+namespace Chenlin\CanalPhp\Example;
 
 use Chenlin\CanalPhp\DealInterface\DealInterface;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Action;
+namespace Chenlin\CanalPhp\Action;
 
 use Com\Alibaba\Otter\Canal\Protocol\Column;
 use Chenlin\CanalPhp\DealInterface\DealInterface;
