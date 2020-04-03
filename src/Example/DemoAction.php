@@ -60,13 +60,13 @@ class DemoAction extends BaseAction
                 }
                 //@tip: 这里存在其他的一些操作事件 要注意防范
                 //如果同步失败 则需要进行重试
-                if (!$result && in_array($evenType, $this->event_arr)) {
+                if (!$result && array_key_exists($evenType, $this->event_arr)) {
                     //默认重试3次
                     $this->asyncRetry($evenType, $row_data, $header, $error_log, $deal);
                 }
 
                 //如果同步成功  则进行日志记录
-                if (in_array($evenType, $this->event_arr)) {
+                if (array_key_exists($evenType, $this->event_arr)) {
                     $this->recordLog($record_log, $evenType, $row_data, $header);
                 }
             }
