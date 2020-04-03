@@ -11,6 +11,7 @@ use Com\Alibaba\Otter\Canal\Protocol\Header;
 use Com\Alibaba\Otter\Canal\Protocol\RowChange;
 use Com\Alibaba\Otter\Canal\Protocol\RowData;
 use Chenlin\CanalPhp\DealInterface\DealInterface;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -98,8 +99,14 @@ class DemoAction extends BaseAction
         if (!file_exists($log_path)) {
             throw new \Exception('日志记录文件不存在');
         }
+        $dateFormat = "Y-m-d H:i:s";
+        $output = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+        $format = new LineFormatter($output, $dateFormat);
+        //设置日志记录时间格式
+        $stream = new StreamHandler($log_path, Logger::DEBUG);
+        $stream->setFormatter($format);
 
-        $log->pushHandler(new StreamHandler($log_path, Logger::DEBUG));
+        $log->pushHandler($stream);
         $log->info(json_encode($info, JSON_UNESCAPED_UNICODE));
         return true;
     }
@@ -128,7 +135,15 @@ class DemoAction extends BaseAction
         if (!file_exists($error_log)) {
             throw new \Exception('错误日志文件不存在');
         }
-        $log->pushHandler(new StreamHandler($error_log, Logger::DEBUG));
+
+
+        $dateFormat = "Y-m-d H:i:s";
+        $output = "[%datetime%] %channel%.%level_name%: %message% %context% %extra%\n";
+        $format = new LineFormatter($output, $dateFormat);
+        //设置日志记录时间格式
+        $stream = new StreamHandler($error_log, Logger::DEBUG);
+        $stream->setFormatter($format);
+        $log->pushHandler($stream);
 
         $error = [
             'database' => $header->getSchemaName(),
