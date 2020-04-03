@@ -92,6 +92,6 @@ class RedisDeal implements DealInterface
     public function delete(array $record): bool
     {
         // TODO: Implement delete() method.
-        return $this->del($record[$this->redis_key]['value']);
+        return $this->del($record[$this->redis_key]['value']) ? true : false;
     }
 }

@@ -66,7 +66,7 @@ class DemoAction extends BaseAction
                 }
 
                 //如果同步成功  则进行日志记录
-                if (array_key_exists($evenType, $this->event_arr)) {
+                if ($result && array_key_exists($evenType, $this->event_arr)) {
                     $this->recordLog($record_log, $evenType, $row_data, $header);
                 }
             }
@@ -125,7 +125,7 @@ class DemoAction extends BaseAction
     {
         // TODO: Implement asyncRetry() method.
         //第一步判断是否满足符合事件条件
-        if (!in_array($eventType, $this->event_arr)) {
+        if (!array_key_exists($eventType, $this->event_arr)) {
             return ;
         }
 
@@ -181,9 +181,21 @@ class DemoAction extends BaseAction
                 'rowData' => $row_data,
                 'describe' => 'first retry  async success!!!!'
             ];
-            $log->info(json_encode($success, JSON_UNESCAPED_UNICODE));
+            $log->info(json_encode($success,JSON_UNESCAPED_UNICODE));
             return ;
         }
+
+        $error = [
+            'database' => $header->getSchemaName(),
+            'table' => $header->getTableName(),
+            'bin-log' => $header->getLogfileName(),
+            'offset' => $header->getLogfileOffset(),
+            'eventType' => $this->event_arr[$eventType],
+            'rowData' => $row_data,
+            'error' => 'first async data fail!'
+        ];
+        $log->emergency(json_encode($error, JSON_UNESCAPED_UNICODE));
+
 
         $dict = [
             1 => 'first',
@@ -191,8 +203,13 @@ class DemoAction extends BaseAction
             3 => 'third',
             4 => 'fourth',
             5 => 'fifth',
-            6 => 'sixth'
+            6 => 'sixth',
+            7 => 'seventh',
+            8 => 'eighth',
+            9 => 'ninth',
+            10 => 'tenth'
         ];
+
         //如果失败 则还要继续重试 从第二次开始
         for ($i = 2; $i <= $try_num; $i++) {
             //进行重试
@@ -220,7 +237,7 @@ class DemoAction extends BaseAction
                     'describe' => $dict[$i].' retry  async success!!!!'
                 ];
 
-                $log->info(json_encode($success), JSON_UNESCAPED_UNICODE);
+                $log->info(json_encode($success, JSON_UNESCAPED_UNICODE));
                 break;
             } else {
                 $error = [
@@ -232,7 +249,7 @@ class DemoAction extends BaseAction
                     'rowData' => $row_data,
                     'error' => $dict[$i].' retry data fail!'
                 ];
-                $log->emergency(json_encode($error), JSON_UNESCAPED_UNICODE);
+                $log->emergency(json_encode($error, JSON_UNESCAPED_UNICODE));
             }
         }
 
